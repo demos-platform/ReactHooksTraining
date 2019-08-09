@@ -6,14 +6,18 @@ import "./styles.css"
 
 function HookApp() {
   const [count, setCount] = useState(0)
+  const countRef = useRef(count)
   const handleAdd = () => {
     setCount(count + 1)
   }
   const handleAlert = () => {
     setTimeout(() => {
-      window.alert(count)
+      window.alert(countRef.current)
     }, 2000)
   }
+  useEffect(() => {
+    countRef.current = count
+  }, [count])
   return (
     <div className="App">
       <h1>Hook</h1>
@@ -36,8 +40,9 @@ class ClassApp extends React.Component {
   };
 
   handleAlert = () => {
+    const count = this.state.count
     setTimeout(() => {
-      window.alert(this.state.count);
+      window.alert(count);
     }, 2000);
   };
 
@@ -58,15 +63,20 @@ class ClassApp extends React.Component {
 function Demo() {
   const [count, setCount] = React.useState(0)
 
-  useEffect(() => {
-    const id = setInterval(() => {
-      setCount(count + 1)
-    }, 2000)
+  // useEffect(() => {
+  //   const id = setInterval(() => {
+  //     // setCount(count => count + 1)
+  //     dispatch()
+  //   }, 2000)
 
-    return () => {
-      clearInterval(id)
-    }
-  }, [])
+  //   return () => {
+  //     clearInterval(id)
+  //   }
+  // }, [])
+
+  useInterval(() => {
+    setCount(count + 1)
+  }, 2000)
 
   return <div>Count: {count}</div>
 }
@@ -74,11 +84,11 @@ function Demo() {
 function View() {
   return (
     <React.Fragment>
-      <HookApp />
+      {/* <HookApp />
       <hr />
-      <ClassApp />
+      <ClassApp /> */}
       <hr />
-      {/* <Demo /> */}
+      <Demo />
     </React.Fragment>
   );
 }
