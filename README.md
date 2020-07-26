@@ -1,33 +1,65 @@
 Hooks 新人培训演讲大纲
 
-### React Logo 与 Hooks
+### Hooks
 
 ![](http://with.muyunyun.cn/ddbdcec2fc39ba350fc74647f4fad6f5.jpg-300)
 
-React 的 logo 是一个原子图案, 原子组成了物质。类似的, React 就如原子般构成了页面的表现; 而 Hooks 就如夸克, 其更接近 React 本质的样子, 但是直到 4 年后的今天才被真正设计出来。 —— Dan in React Conf(2018)
+React 的 logo 是一个原子图案, 原子组成了物质。类似的, React 就如原子般构成了页面的表现; 而 Hooks 就如夸克, 其更接近 React 本质的样子, 但是直到 2019 年(花了近 4 年时间)才被真正设计出来。 —— Dan in React Conf(2018)
 
-### why Hooks?
+### React 中的逻辑复用
 
-一: `多个组件间逻辑复用`: 在 Class 中使用 React 不能将带有 state 的逻辑给单独抽离成 function, 其只能通过嵌套组件的方式来解决多个组件间逻辑复用的问题, 基于嵌套组件的思想存在 [HOC](https://github.com/MuYunyun/blog/blob/master/React/从0到1实现React/8.HOC探索.md) 与 `render props` 两种设计模式。但是这两种设计模式是否存在缺陷呢?
+在 Hooks 出来之前, 类组件是如何进行逻辑复用的呢？
 
-* 嵌套地狱, 当嵌套层级过多后, 数据源的追溯会变得十分困难, 导致定位 bug 不容易; (hoc、render props)
+熟悉 React 的同学可能知道在 React 的设计理念中, 社区推崇使用组合而非继承的方式来达到逻辑复用的目的。[HOC](https://github.com/MuYunyun/blog/blob/master/React/从0到1实现React/8.HOC探索.md) 与 [Render Props](https://github.com/MuYunyun/blog/blob/master/React/从0到1实现React/16.RenderProps.md) 是当下类组件中复用逻辑常用的手段。
 
-![](http://with.muyunyun.cn/b9147e8bd39e7badccc3190fb473755f.jpg)
+HOC:
 
-* 性能, 需要额外的组件实例存在额外的开销; (hoc、render props)
-* 命名重复性, 在一个组件中同时使用多个 hoc, 不排除这些 hoc 里的方法存在命名冲突的问题; (hoc)
+```js
+// react-redux
+class MyComponent extends React.Component {}
+export default connect(mapStateToProps, mapDispatchToProps)(MyComponent)
+```
 
-二: `单个组件中的逻辑复用`: Class 中的生命周期 `componentDidMount`、`componentDidUpdate` 甚至 `componentWillUnMount` 中的大多数逻辑基本是类似的, 必须拆散在不同生命周期中维护相同的逻辑对使用者是不友好的, 这样也造成了组件的代码量增加。
+Render Props:
 
-![](http://with.muyunyun.cn/0c94989b2eced65c368ff2389464fd0a.jpg-400)
+```js
+// Beast 组件 Matrix
+<Matrix dataSources={dataSources}>
+  {({ src, index }) => {
+    return (
+      <>
+        <div>name: {src.name}</div>
+        <div>index: {index}</div>
+      </>
+    )
+  }}
+</Matrix>
+```
 
-![](http://with.muyunyun.cn/d21d7974dbec9a49603e2211b354496c.jpg-400)
+这两种模式是否存在缺陷呢?
 
-三: Class 的其它一些问题: 在 React 使用 Class 需要书写大量样板, 用户通常会对 Class 中 Constructor 的 bind 以及 this 的使用感到困惑; 当结合 class 与 TypeScript 一起使用时, 需要对 defaultValue 做额外声明处理; 此外 React Team 表示 Class 在机器编译优化方面也不是很理想。
+* 开发层面
+  * 排查问题不易。当嵌套层级过多后, 数据源的追溯会变得十分困难, 导致排查定位问题不易; (Hoc、Render props)
+    * ![](http://with.muyunyun.cn/b9147e8bd39e7badccc3190fb473755f.jpg)
+  * 业务逻辑分散。基于`生命周期编程`, 代码量增加。
+    * 类组件生命周期 `componentDidMount`、`componentDidUpdate`、`componentWillUnMount` 中大多数逻辑是类似的, 拆散在不同生命周期中维护相同的逻辑对使用者是不友好, 同时也造成了组件的代码量增加。
+      * 基于类: ![](http://with.muyunyun.cn/0c94989b2eced65c368ff2389464fd0a.jpg-400)
+      * 基于 Hooks: ![](http://with.muyunyun.cn/d21d7974dbec9a49603e2211b354496c.jpg-400)
+  * 属性覆盖。若同时使用多个 Hoc, 容易存在命名冲突导致属性被覆盖的情况; (Hoc)
+* 性能开销大。组件实例化存在额外的开销; (Hoc、Render props)
+
+此外类组件还有一些其它问题:
+
+* 冗余的样板代码。比如 `this.xxxFn = this.xxxFn.bind(this)`
+* 学习成本相对高。比如要掌握各个生命周期
+* 编译优化方面不理想。编译时间长, 编译出的代码体积大。另外可以见 [Vue: Update: the Class API proposal is being dropped.](https://github.com/vuejs/rfcs/pull/17#issuecomment-494242121) 这个 issue.
+
+* React Hooks 的常见陷阱
+  * 闭包陷阱, (useInterval, useFetch)
 
 ### React Hooks 使用中的问题
 
-#### 闭包陷阱
+#### 百思不解, 必是闭包
 
 * demo1: 闭包陷阱1。 [Demo 地址](https://codesandbox.io/s/22y21468r)
 
@@ -90,55 +122,11 @@ function Demo() {
 }
 ```
 
-### React Hooks 内部探究
+#### useSetState
 
-以 `useState` 和 `useReducer` 为例
+#### 规则陷阱
 
-#### 使用 useState 实现 useReducer
-
-```js
-import * as React from 'react'
-const { useState, useRef, useCallback } = React
-
-function useReducer(reducer, initialState) {
-  const [state, setState] = useState(initialState)
-  const reducerRef = useRef(reducer)
-  const stateRef = useRef(state)
-
-  const dispatch = useCallback((action) => {
-    setState(reducerRef.current(stateRef.current, action))
-  }, [])
-
-  useEffect(() => {
-    reducerRef.current = reducer
-  }, [reducer])
-
-  useEffect(() => {
-    stateRef.current = state
-  }, [state])
-
-  return [state, dispatch]
-}
-```
-
-#### 使用 useReducer 实现 useState
-
-```js
-import * as React from 'react'
-const { useReducer, useCallback } = React
-
-function useState(initialState) {
-  const [state, dispatch] = useReducer((state, action) => {
-    return action
-  }, initialState)
-
-  const setState = useCallback(
-    (newState) => dispatch(newState), []
-  )
-
-  return [state, setState]
-}
-```
+> eslint-hooks 插件
 
 ### 相关链接
 

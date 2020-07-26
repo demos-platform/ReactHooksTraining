@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useReducer } from "react"
 import ReactDOM from "react-dom"
 import useInterval from './useInterval'
-
 import "./styles.css"
 
 function HookApp() {
