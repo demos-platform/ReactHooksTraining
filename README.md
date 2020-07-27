@@ -124,12 +124,6 @@ function Demo() {
 }
 ```
 
-#### useSetState
-
-#### 规则陷阱
-
-> eslint-hooks 插件
-
 ### 相关链接
 
 * [React Hooks 深入系列](https://github.com/MuYunyun/blog/blob/master/React/React_Hooks深入系列.md)
