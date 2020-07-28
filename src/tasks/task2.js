@@ -61,12 +61,12 @@ const { useState, useEffect, useRef, useReducer } = React
 function useInterval(fn, time) {
   const fnRef = useRef(fn)
   useEffect(() => {
-    fnRef.current = fn;
-  }, [fn]);
+    fnRef.current = fn
+  }, [fn])
   useEffect(() => {
     const id = setInterval(() => {
-      fnRef.current();
-    }, time);
+      fnRef.current()
+    }, time)
 
     return () => {
       clearTimeout(id)
@@ -76,13 +76,13 @@ function useInterval(fn, time) {
 
 // way 4
 function Demo() {
-  const [count, setCount] = React.useState(0);
+  const [count, setCount] = React.useState(0)
 
   const id = useInterval(() => {
     setCount(count + 1)
   }, 2000)
 
-  return <div>Count: {count}</div>;
+  return <div>Count: {count}</div>
 }
 
-export { Demo }
+export default Demo

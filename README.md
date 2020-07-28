@@ -57,21 +57,22 @@ Render Props:
 * React Hooks 的常见陷阱
   * 闭包陷阱, (useInterval, useFetch)
 
-###
-React Hooks 使用中的问题
+### React Hooks 使用中的问题
 
 #### 百思不解, 必是闭包
 
-* demo1: 闭包陷阱1。 [Demo 地址](https://codesandbox.io/s/22y21468r)
+* Part1: 闭包陷阱
 
-1. Hooks/class demo 对比演示;
-2. Hooks/class 互相切换为对方的形态;
+> [Demo 地址](https://codesandbox.io/s/22y21468r)
 
-结论: 问题不在于是使用 Hooks 还是 class, 本质是受到闭包的影响。
+1. 函数组件/类组件 Demo 对比演示;
+2. 函数组件/类组件互相切换为对方的形态;
 
-* demo2: 闭包陷阱2
+结论: 问题不在于是使用函数组件还是类组件, 本质是受到闭包的影响。
 
-由 Class 转换过来的用户习惯 `setCount(count + 1))` 的方式。但在 Hooks 中这样子使用会产生闭包问题导致 `count` 不会增加。
+* Part2: 闭包陷阱2
+
+之前写过类组件的用户应该习惯 `setCount(count + 1))` 的方式。但在函数组件中这样子使用会产生闭包问题导致 `count` 不会增加。
 
 ```js
 function Demo() {
@@ -91,9 +92,9 @@ function Demo() {
 }
 ```
 
-提供 3 种解法。用户说还是想用 `setCount(count + 1)` 的形式怎么办
+提供若干种解法。用户说还是想用 `setCount(count + 1)` 的形式怎么办
 
-引出为此提供 `useInterval` 钩子, 顺利过渡到 `beast-hooks`
+引出自定义 hooks 的概念。介绍 `useInterval` 钩子, 顺利过渡到 `beast-hooks`
 
 ```js
 function useInterval(callback, delay: number) {
@@ -122,12 +123,6 @@ function Demo() {
   return (<div>Count: {count}</div>)
 }
 ```
-
-#### useSetState
-
-#### 规则陷阱
-
-> eslint-hooks 插件
 
 ### 相关链接
 
