@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect } from "react"
+import React from "react"
+
+const { useRef, useEffect } = React
 
 export default function useInterval(callback, delay) {
   const cbRef = useRef({})
