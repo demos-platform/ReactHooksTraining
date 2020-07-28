@@ -3,7 +3,7 @@ import React from "react"
 const { useState, useEffect } = React
 
 function Demo() {
-  const [count, setCount] = React.useState(0)
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -18,4 +18,4 @@ function Demo() {
   return <div>Count: {count}</div>
 }
 
-export { Demo }
+export default Demo
