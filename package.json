@@ -10,7 +10,6 @@
     "react-scripts": "2.1.8"
   },
   "devDependencies": {
-    "eslint": "^7.5.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
@@ -25,8 +24,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "eject": "react-scripts eject"
   },
   "browserslist": [
     ">0.2%",
