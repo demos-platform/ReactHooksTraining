@@ -4,7 +4,7 @@ Hooks 新人培训演讲大纲
 
 ![](http://with.muyunyun.cn/ddbdcec2fc39ba350fc74647f4fad6f5.jpg-300)
 
-React 的 logo 是一个原子图案, 原子组成了物质。类似的, React 就如原子般构成了页面的表现; 而 Hooks 就如夸克, 其更接近 React 本质的样子, 但是直到 2019 年(花了近 4 年时间)才被真正设计出来。 —— Dan in React Conf(2018)
+React 的 logo 是一个原子图案, 原子组成了物质。类似的, React 就如原子般构成了页面的表现; 而 Hooks 就如夸克, 其更接近 React 本质的样子, 但是直到 2019 年才被真正设计出来(花了近 4 年时间)。 —— Dan in React Conf(2018)
 
 ### React 中的逻辑复用
 
