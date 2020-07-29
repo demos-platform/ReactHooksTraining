@@ -5,18 +5,17 @@ import ReactDOM from "react-dom"
 import { HookApp, ClassApp } from "./tasks/task1"
 import Demo from "./tasks/task2"
 import RuleCase from "./tasks/task3_if_rule"
-import useInterval from "./useInterval"
 import "./styles.css"
 
 function View() {
   return (
     <>
-      {/* <HookApp />
+      <HookApp />
       <hr />
       <ClassApp />
-      <hr /> */}
+      <hr />
       {/* <Demo /> */}
-      <RuleCase />
+      {/* <RuleCase /> */}
     </>
   )
 }
