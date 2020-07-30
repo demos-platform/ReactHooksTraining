@@ -4,8 +4,6 @@ import { useForceUpdate } from "./hooks"
 
 const { useState, useEffect, useReducer } = React
 
-// Only Call Hooks at the Top Level.
-// Don’t call Hooks from regular JavaScript functions.
 function RuleCase() {
   const forceUpdate = useForceUpdate()
   const [a, setA] = useState(1)
